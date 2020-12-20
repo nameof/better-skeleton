@@ -1,10 +1,10 @@
 package com.nameof.skeleton;
 
-import com.nameof.skeleton.model.user.Role;
-import com.nameof.skeleton.model.user.User;
-import com.nameof.skeleton.model.user.UserRoles;
-import com.nameof.skeleton.repository.user.RoleRepository;
-import com.nameof.skeleton.repository.user.UserRepository;
+import com.nameof.skeleton.user.domain.Role;
+import com.nameof.skeleton.user.domain.User;
+import com.nameof.skeleton.user.domain.UserRoles;
+import com.nameof.skeleton.user.repository.user.RoleRepository;
+import com.nameof.skeleton.user.repository.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
 package com.nameof.skeleton.config;
 
 import com.nameof.skeleton.exception.BRSException;
-import com.nameof.skeleton.dto.response.Response;
+import com.nameof.skeleton.web.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

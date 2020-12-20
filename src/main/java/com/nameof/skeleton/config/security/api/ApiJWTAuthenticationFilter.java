@@ -1,7 +1,7 @@
 package com.nameof.skeleton.config.security.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nameof.skeleton.model.user.User;
+import com.nameof.skeleton.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
