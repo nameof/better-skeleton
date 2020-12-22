@@ -1,4 +1,4 @@
-package com.nameof.skeleton.user.repository.user;
+package com.nameof.skeleton.user.repository;
 
 import com.nameof.skeleton.user.domain.User;
 import org.springframework.data.repository.CrudRepository;
