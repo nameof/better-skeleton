@@ -1,6 +1,8 @@
 package com.nameof.skeleton.exception;
 
 import com.nameof.skeleton.config.PropertiesConfig;
+import com.nameof.skeleton.core.enums.EntityType;
+import com.nameof.skeleton.core.enums.ExceptionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.nameof.skeleton.config.security;
 
 import com.nameof.skeleton.user.service.UserService;
-import com.nameof.skeleton.user.dto.RoleDto;
-import com.nameof.skeleton.user.dto.UserDto;
+import com.nameof.skeleton.user.model.dto.RoleDto;
+import com.nameof.skeleton.user.model.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

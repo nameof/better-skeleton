@@ -2,7 +2,7 @@ package com.nameof.skeleton;
 
 import com.nameof.skeleton.user.domain.Role;
 import com.nameof.skeleton.user.domain.User;
-import com.nameof.skeleton.user.domain.UserRoles;
+import com.nameof.skeleton.user.model.enums.UserRoles;
 import com.nameof.skeleton.user.repository.RoleRepository;
 import com.nameof.skeleton.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;

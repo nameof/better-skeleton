@@ -1,6 +1,7 @@
-package com.nameof.skeleton.user.request;
+package com.nameof.skeleton.user.web.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nameof.skeleton.user.web.validator.UserSignupRequestValid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @Accessors(chain = true)
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@UserSignupRequestValid
 public class UserSignupRequest {
     @NotEmpty(message = "{constraints.NotEmpty.message}")
     private String email;
@@ -28,8 +30,4 @@ public class UserSignupRequest {
     private String lastName;
 
     private String mobileNumber;
-
-    public boolean isAdmin() {
-        return false;
-    }
 }

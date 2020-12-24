@@ -1,4 +1,4 @@
-package com.nameof.skeleton.user.ui;
+package com.nameof.skeleton.user.web.ui;
 
 
 import org.springframework.security.core.context.SecurityContextHolder;

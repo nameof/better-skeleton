@@ -1,5 +1,6 @@
 package com.nameof.skeleton.user.domain;
 
+import com.nameof.skeleton.user.model.enums.UserRoles;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

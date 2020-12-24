@@ -1,4 +1,4 @@
-package com.nameof.skeleton.exception;
+package com.nameof.skeleton.core.enums;
 
 public enum ExceptionType {
     ENTITY_NOT_FOUND("not.found"),
@@ -11,7 +11,7 @@ public enum ExceptionType {
         this.value = value;
     }
 
-    String getValue() {
+    public String getValue() {
         return this.value;
     }
 }
