@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         userRoles.forEach((role) -> {
             roles.add(new SimpleGrantedAuthority(role.getRole()));
         });
-        return new ArrayList<GrantedAuthority>(roles);
+        return new ArrayList<>(roles);
     }
 
     private UserDetails buildUserForAuthentication(UserDto user, List<GrantedAuthority> authorities) {

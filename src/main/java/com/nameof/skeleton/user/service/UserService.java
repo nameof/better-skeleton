@@ -3,14 +3,12 @@ package com.nameof.skeleton.user.service;
 import com.nameof.skeleton.core.service.AbstractService;
 import com.nameof.skeleton.user.domain.Role;
 import com.nameof.skeleton.user.domain.User;
-import com.nameof.skeleton.user.model.enums.UserRoles;
 import com.nameof.skeleton.user.mapper.UserMapper;
-import com.nameof.skeleton.user.model.bo.UserPageBo;
-import com.nameof.skeleton.user.model.bo.UserSignupBo;
 import com.nameof.skeleton.user.model.dto.UserDto;
+import com.nameof.skeleton.user.model.enums.UserRoles;
 import com.nameof.skeleton.user.repository.RoleRepository;
 import com.nameof.skeleton.user.repository.UserRepository;
-import org.modelmapper.ModelMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,62 +41,52 @@ public class UserService extends AbstractService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public UserDto signup(UserSignupBo bo) {
+    public UserDto signup(UserDto dto) {
         Role userRole;
-        User user = repository.findByEmail(bo.getEmail());
+        User user = repository.findByEmail(dto.getEmail());
         if (user == null) {
             userRole = roleRepository.findByRole(UserRoles.PASSENGER);
-            user = new User()
-                    .setEmail(bo.getEmail())
-                    .setPassword(bCryptPasswordEncoder.encode(bo.getPassword()))
-                    .setRoles(new HashSet<>(Arrays.asList(userRole)))
-                    .setFirstName(bo.getFirstName())
-                    .setLastName(bo.getLastName())
-                    .setMobileNumber(bo.getMobileNumber());
-            return userMapper.toUserDto(repository.save(user));
+            user = userMapper.toDomain(dto);
+            user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()))
+                .setRoles(new HashSet<>(Arrays.asList(userRole)));
+            return userMapper.toDto(repository.save(user));
         }
-        throw exception(USER, DUPLICATE_ENTITY, bo.getEmail());
+        throw exception(USER, DUPLICATE_ENTITY, dto.getEmail());
     }
 
     @Transactional
     public UserDto findUserByEmail(String email) {
         Optional<User> user = Optional.ofNullable(repository.findByEmail(email));
-        if (user.isPresent()) {
-            return modelMapper.map(user.get(), UserDto.class);
-        }
-        throw exception(USER, ENTITY_NOT_FOUND, email);
+        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, email));
+        return userMapper.toDto(userModel);
     }
 
     public UserDto updateProfile(UserDto userDto) {
         Optional<User> user = Optional.ofNullable(repository.findByEmail(userDto.getEmail()));
-        if (user.isPresent()) {
-            User userModel = user.get();
-            userModel.setFirstName(userDto.getFirstName())
-                    .setLastName(userDto.getLastName())
-                    .setMobileNumber(userDto.getMobileNumber());
-            return userMapper.toUserDto(repository.save(userModel));
-        }
-        throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
+        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, userDto.getEmail()));
+        userModel.setFirstName(userDto.getFirstName())
+                .setLastName(userDto.getLastName())
+                .setMobileNumber(userDto.getMobileNumber());
+        return userMapper.toDto(repository.save(userModel));
     }
 
     public UserDto changePassword(UserDto userDto, String newPassword) {
         Optional<User> user = Optional.ofNullable(repository.findByEmail(userDto.getEmail()));
-        if (user.isPresent()) {
-            User userModel = user.get();
-            userModel.setPassword(bCryptPasswordEncoder.encode(newPassword));
-            return userMapper.toUserDto(repository.save(userModel));
-        }
-        throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
+        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, userDto.getEmail()));
+        userModel.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        return userMapper.toDto(repository.save(userModel));
     }
 
-    public Page<UserDto> queryPage(UserPageBo bo) {
-        PageRequest request = PageRequest.of(bo.getPage(), bo.getSize());
-        Page<User> page = repository.findAll(request);
-        List<UserDto> list = page.getContent().stream().map(userMapper::toUserDto).collect(Collectors.toList());
-        return new PageImpl<>(list, request, page.getTotalElements());
+    public Page<UserDto> queryPage(int page, int size, String firstName) {
+        PageRequest request = PageRequest.of(page, size);
+        Page<User> pageData = null;
+        if (StringUtils.isNotEmpty(firstName)) {
+            pageData = repository.findByFirstName(firstName, request);
+        } else {
+            pageData = repository.findAll(request);
+        }
+        List<UserDto> list = pageData.getContent().stream().map(userMapper::toDto).collect(Collectors.toList());
+        return new PageImpl<>(list, request, pageData.getTotalElements());
     }
 
 }
