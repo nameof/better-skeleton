@@ -11,4 +11,4 @@ com.xx.blog.service
 
 2、数据对象转换关系 <br/>
 ① request/query → dto/bo → domain <br/>
-② (vo ⬅ ) dto ⬅ domain 
+② (vo ← ) dto ← domain 
