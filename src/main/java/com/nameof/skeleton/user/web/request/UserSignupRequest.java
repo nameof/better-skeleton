@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 
 @Getter
@@ -17,16 +16,16 @@ import javax.validation.constraints.NotEmpty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @UserSignupRequestValid
 public class UserSignupRequest {
-    @NotEmpty(message = "{constraints.NotEmpty.message}")
+    @NotBlank
     private String email;
 
-    @NotEmpty(message = "{constraints.NotEmpty.message}")
+    @NotBlank
     private String password;
 
-    @NotEmpty(message = "{constraints.NotEmpty.message}")
+    @NotBlank
     private String firstName;
 
-    @NotEmpty(message = "{constraints.NotEmpty.message}")
+    @NotBlank
     private String lastName;
 
     private String mobileNumber;
