@@ -1,35 +1,15 @@
 package com.nameof.skeleton.exception;
 
-import com.nameof.skeleton.config.PropertiesConfig;
 import com.nameof.skeleton.core.enums.EntityType;
 import com.nameof.skeleton.core.enums.ExceptionType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
-import java.util.Optional;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 @Component
 public class BRSException {
 
-    private static PropertiesConfig propertiesConfig;
-
-    @Autowired
-    public BRSException(PropertiesConfig propertiesConfig) {
-        BRSException.propertiesConfig = propertiesConfig;
-    }
-
-    /**
-     * Returns new RuntimeException based on template and args
-     *
-     * @param messageTemplate
-     * @param args
-     * @return
-     */
-    public static RuntimeException throwException(String messageTemplate, String... args) {
-        return new RuntimeException(format(messageTemplate, args));
-    }
-
     /**
      * Returns new RuntimeException based on EntityType, ExceptionType and args
      *
@@ -38,63 +18,41 @@ public class BRSException {
      * @param args
      * @return
      */
-    public static RuntimeException throwException(EntityType entityType, ExceptionType exceptionType, String... args) {
-        String messageTemplate = getMessageTemplate(entityType, exceptionType);
-        return throwException(exceptionType, messageTemplate, args);
-    }
-
-    /**
-     * Returns new RuntimeException based on EntityType, ExceptionType and args
-     *
-     * @param entityType
-     * @param exceptionType
-     * @param args
-     * @return
-     */
-    public static RuntimeException throwExceptionWithId(EntityType entityType, ExceptionType exceptionType, Integer id, String... args) {
-        String messageTemplate = getMessageTemplate(entityType, exceptionType).concat(".").concat(id.toString());
-        return throwException(exceptionType, messageTemplate, args);
-    }
-
-    /**
-     * Returns new RuntimeException based on EntityType, ExceptionType, messageTemplate and args
-     *
-     * @param entityType
-     * @param exceptionType
-     * @param messageTemplate
-     * @param args
-     * @return
-     */
-    public static RuntimeException throwExceptionWithTemplate(EntityType entityType, ExceptionType exceptionType, String messageTemplate, String... args) {
-        return throwException(exceptionType, messageTemplate, args);
+    public static RuntimeException throwException(EntityType entityType, ExceptionType exceptionType, Object... args) {
+        String messageDesc = getMessageDesc(entityType, exceptionType);
+        return throwException(exceptionType, messageDesc, args);
     }
 
     /**
      * Returns new RuntimeException based on template and args
      *
-     * @param messageTemplate
+     * @param messageDesc
      * @param args
      * @return
      */
-    private static RuntimeException throwException(ExceptionType exceptionType, String messageTemplate, String... args) {
+    private static RuntimeException throwException(ExceptionType exceptionType, String messageDesc, Object... args) {
         if (ExceptionType.ENTITY_NOT_FOUND.equals(exceptionType)) {
-            return new EntityNotFoundException(format(messageTemplate, args));
+            return new EntityNotFoundException(format(messageDesc, args));
         } else if (ExceptionType.DUPLICATE_ENTITY.equals(exceptionType)) {
-            return new DuplicateEntityException(format(messageTemplate, args));
+            return new DuplicateEntityException(format(messageDesc, args));
         }
-        return new RuntimeException(format(messageTemplate, args));
+        return new RuntimeException(format(messageDesc, args));
     }
 
-    private static String getMessageTemplate(EntityType entityType, ExceptionType exceptionType) {
-        return entityType.name().concat(".").concat(exceptionType.getValue()).toLowerCase();
+    private static String getMessageDesc(EntityType entityType, ExceptionType exceptionType) {
+        return entityType.name().concat(" ").concat(exceptionType.getValue()).toLowerCase();
     }
 
-    private static String format(String template, String ... args) {
-        Optional<String> templateContent = Optional.ofNullable(propertiesConfig.getConfigValue(template));
-        if (templateContent.isPresent()) {
-            return MessageFormat.format(templateContent.get(), (Object[]) args);
+    private static String format(String desc, Object ... args) {
+        if (args.length == 0) {
+            return desc;
         }
-        return String.format(template, (Object[]) args);
+        String result = desc + ": ";
+        StringJoiner sj = new StringJoiner(", ");
+        for (Object arg : args) {
+            sj.add(Objects.toString(arg));
+        }
+        return result + sj.toString();
     }
 
     public static class EntityNotFoundException extends RuntimeException {
