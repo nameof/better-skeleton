@@ -1,5 +1,8 @@
 package com.nameof.skeleton.user.web.api;
 
+import com.nameof.skeleton.core.controller.AbstractController;
+import com.nameof.skeleton.core.enums.EntityType;
+import com.nameof.skeleton.core.enums.ExceptionType;
 import com.nameof.skeleton.user.mapper.UserMapper;
 import com.nameof.skeleton.user.model.dto.UserDto;
 import com.nameof.skeleton.user.service.UserService;
@@ -13,20 +16,21 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user")
-public class UserController {
+public class UserController extends AbstractController {
     @Autowired
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
 
-    /**
-     * @param request
-     * @return
-     */
     @PostMapping("/signup")
     public UserDto signup(@RequestBody @Valid UserSignupRequest request) {
         UserDto dto = userMapper.toDto(request);
         return userService.signup(dto);
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getById(@PathVariable("id") Long id) {
+        return userService.getById(id).orElseThrow(() ->  exception(EntityType.USER, ExceptionType.ENTITY_NOT_FOUND, id));
     }
 
     @GetMapping("/page")

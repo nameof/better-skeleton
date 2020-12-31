@@ -89,4 +89,7 @@ public class UserService extends AbstractService {
         return new PageImpl<>(list, request, pageData.getTotalElements());
     }
 
+    public Optional<UserDto> getById(Long id) {
+        return repository.findById(id).map(userMapper::toDto);
+    }
 }

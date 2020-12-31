@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 @Component
-public class BRSException {
+public class AppException {
 
     /**
      * Returns new RuntimeException based on EntityType, ExceptionType and args

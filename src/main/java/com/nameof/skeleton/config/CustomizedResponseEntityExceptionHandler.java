@@ -1,6 +1,6 @@
 package com.nameof.skeleton.config;
 
-import com.nameof.skeleton.exception.BRSException;
+import com.nameof.skeleton.exception.AppException;
 import com.nameof.skeleton.util.ValidatorUtil;
 import com.nameof.skeleton.web.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -18,15 +18,15 @@ import java.util.List;
 @RestController
 public class CustomizedResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BRSException.EntityNotFoundException.class)
-    public final ResponseEntity handleNotFountExceptions(BRSException.EntityNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(AppException.EntityNotFoundException.class)
+    public final ResponseEntity handleNotFountExceptions(AppException.EntityNotFoundException ex, WebRequest request) {
         ErrorResponse response = ErrorResponse.notFound();
         response.addError(ex.getMessage(), ex);
         return new ResponseEntity(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(BRSException.DuplicateEntityException.class)
-    public final ResponseEntity handleDuplicateException(BRSException.DuplicateEntityException ex, WebRequest request) {
+    @ExceptionHandler(AppException.DuplicateEntityException.class)
+    public final ResponseEntity handleDuplicateException(AppException.DuplicateEntityException ex, WebRequest request) {
         ErrorResponse response = ErrorResponse.duplicateEntity();
         response.addError(ex.getMessage(), ex);
         return new ResponseEntity(response, HttpStatus.CONFLICT);
