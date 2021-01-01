@@ -6,6 +6,7 @@ import com.nameof.skeleton.user.domain.User;
 import com.nameof.skeleton.user.mapper.UserMapper;
 import com.nameof.skeleton.user.model.dto.UserDto;
 import com.nameof.skeleton.user.model.enums.UserRoles;
+import com.nameof.skeleton.user.mq.UserMessageSender;
 import com.nameof.skeleton.user.repository.RoleRepository;
 import com.nameof.skeleton.user.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -31,16 +32,16 @@ import static com.nameof.skeleton.core.enums.ExceptionType.ENTITY_NOT_FOUND;
 public class UserService extends AbstractService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserRepository repository;
-
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserMessageSender messageSender;
 
+    @Transactional
     public UserDto signup(UserDto dto) {
         Role userRole;
         User user = repository.findByEmail(dto.getEmail());
@@ -49,6 +50,8 @@ public class UserService extends AbstractService {
             user = userMapper.toDomain(dto);
             user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .setRoles(new HashSet<>(Arrays.asList(userRole)));
+
+            messageSender.sendUserSignup(user);
             return userMapper.toDto(repository.save(user));
         }
         throw exception(USER, DUPLICATE_ENTITY, dto.getEmail());
