@@ -76,9 +76,4 @@ public class MessageSender {
         msg.setMsgStatus(ReliableMsgStatus.NEW);
         reliableMsgRepository.save(msg);
     }
-
-    @Override
-    public int hashCode() {
-        return 100;
-    }
 }
