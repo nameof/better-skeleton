@@ -12,7 +12,6 @@ import com.nameof.skeleton.user.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.nameof.skeleton.core.enums.EntityType.USER;
 import static com.nameof.skeleton.core.enums.ExceptionType.DUPLICATE_ENTITY;
@@ -88,8 +85,7 @@ public class UserService extends AbstractService {
         } else {
             pageData = repository.findAll(request);
         }
-        List<UserDto> list = pageData.getContent().stream().map(userMapper::toDto).collect(Collectors.toList());
-        return new PageImpl<>(list, request, pageData.getTotalElements());
+        return pageData.map(userMapper::toDto);
     }
 
     public Optional<UserDto> getById(Long id) {
