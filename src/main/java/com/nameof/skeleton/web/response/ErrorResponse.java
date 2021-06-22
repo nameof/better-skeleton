@@ -3,7 +3,7 @@ package com.nameof.skeleton.web.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nameof.skeleton.core.enums.Status;
-import com.nameof.skeleton.util.DateUtils;
+import com.nameof.skeleton.utils.DateUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class ErrorResponse {
     private Object metadata;
 
     public ErrorResponse() {
-        this.timestamp = DateUtils.today();
+        this.timestamp = DateUtil.today();
     }
 
     public static ErrorResponse badRequest() {

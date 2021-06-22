@@ -1,7 +1,7 @@
 package com.nameof.skeleton.config;
 
 import com.nameof.skeleton.exception.AppException;
-import com.nameof.skeleton.util.ValidatorUtil;
+import com.nameof.skeleton.utils.ValidatorUtil;
 import com.nameof.skeleton.web.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

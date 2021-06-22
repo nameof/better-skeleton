@@ -1,6 +1,5 @@
-package com.nameof.skeleton.util;
+package com.nameof.skeleton.utils;
 
-import com.nameof.skeleton.web.response.ErrorResponse;
 import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintValidatorContextImpl;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;

@@ -1,4 +1,4 @@
-package com.nameof.skeleton.util;
+package com.nameof.skeleton.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JsonUtils {
+public class JsonUtil {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     static {
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

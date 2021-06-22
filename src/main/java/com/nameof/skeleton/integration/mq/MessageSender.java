@@ -2,7 +2,7 @@ package com.nameof.skeleton.integration.mq;
 
 import com.nameof.skeleton.integration.mq.domain.ReliableMsg;
 import com.nameof.skeleton.integration.mq.repository.ReliableMsgRepository;
-import com.nameof.skeleton.util.JsonUtils;
+import com.nameof.skeleton.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,7 @@ public class MessageSender {
     public void sendReliable(String topic, Object payload) {
         ReliableMsg msg = new ReliableMsg();
         msg.setTopic(topic);
-        msg.setMessage(JsonUtils.toJson(payload));
+        msg.setMessage(JsonUtil.toJson(payload));
         msg.setRetryCount(0);
         msg.setMsgStatus(ReliableMsgStatus.NEW);
         reliableMsgRepository.save(msg);

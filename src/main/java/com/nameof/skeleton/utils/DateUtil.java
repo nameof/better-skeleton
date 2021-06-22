@@ -1,9 +1,9 @@
-package com.nameof.skeleton.util;
+package com.nameof.skeleton.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateUtils {
+public class DateUtil {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
