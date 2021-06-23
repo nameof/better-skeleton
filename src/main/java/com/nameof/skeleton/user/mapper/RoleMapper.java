@@ -12,7 +12,6 @@ public class RoleMapper extends AbstractMapper<Role, RoleDto> {
     @Autowired
     private ModelMapper mapper;
 
-    @Override
     public Role toDomain(RoleDto roleDto) {
         return mapper.map(roleDto, Role.class);
     }

@@ -1,6 +1,6 @@
 package com.nameof.skeleton.user.web.validator;
 
-import com.nameof.skeleton.user.web.request.UserSignupRequest;
+import com.nameof.skeleton.user.model.request.UserSignupRequest;
 import com.nameof.skeleton.utils.ValidatorUtil;
 
 import javax.validation.ConstraintValidator;

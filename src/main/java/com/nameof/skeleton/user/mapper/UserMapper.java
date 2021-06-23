@@ -3,7 +3,7 @@ package com.nameof.skeleton.user.mapper;
 import com.nameof.skeleton.core.mapper.AbstractMapper;
 import com.nameof.skeleton.user.domain.User;
 import com.nameof.skeleton.user.model.dto.UserDto;
-import com.nameof.skeleton.user.web.request.UserSignupRequest;
+import com.nameof.skeleton.user.model.request.UserSignupRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,6 @@ public class UserMapper extends AbstractMapper<User, UserDto> {
                         .collect(Collectors.toSet()));
     }
 
-    @Override
     public User toDomain(UserDto dto) {
         User user = new User()
                 .setEmail(dto.getEmail())
@@ -44,7 +43,7 @@ public class UserMapper extends AbstractMapper<User, UserDto> {
         return user;
     }
 
-    public UserDto toDto(UserSignupRequest request) {
-        return mapper.map(request, UserDto.class);
+    public User toDomain(UserSignupRequest request) {
+        return mapper.map(request, User.class);
     }
 }

@@ -6,6 +6,7 @@ import com.nameof.skeleton.user.domain.User;
 import com.nameof.skeleton.user.mapper.UserMapper;
 import com.nameof.skeleton.user.model.dto.UserDto;
 import com.nameof.skeleton.user.model.enums.UserRoles;
+import com.nameof.skeleton.user.model.request.UserSignupRequest;
 import com.nameof.skeleton.user.mq.UserMessageSender;
 import com.nameof.skeleton.user.repository.RoleRepository;
 import com.nameof.skeleton.user.repository.UserRepository;
@@ -39,19 +40,19 @@ public class UserService extends AbstractService {
     private UserMessageSender messageSender;
 
     @Transactional
-    public UserDto signup(UserDto dto) {
+    public UserDto signup(UserSignupRequest request) {
         Role userRole;
-        User user = repository.findByEmail(dto.getEmail());
+        User user = repository.findByEmail(request.getEmail());
         if (user == null) {
             userRole = roleRepository.findByRole(UserRoles.PASSENGER);
-            user = userMapper.toDomain(dto);
-            user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()))
+            user = userMapper.toDomain(request);
+            user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()))
                 .setRoles(new HashSet<>(Arrays.asList(userRole)));
 
             messageSender.sendUserSignup(user);
             return userMapper.toDto(repository.save(user));
         }
-        throw exception(USER, DUPLICATE_ENTITY, dto.getEmail());
+        throw exception(USER, DUPLICATE_ENTITY, request.getEmail());
     }
 
     @Transactional

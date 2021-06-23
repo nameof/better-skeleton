@@ -1,4 +1,4 @@
-package com.nameof.skeleton.user.web.request;
+package com.nameof.skeleton.user.model.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nameof.skeleton.user.web.validator.UserSignupRequestValid;

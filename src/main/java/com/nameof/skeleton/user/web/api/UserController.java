@@ -6,7 +6,7 @@ import com.nameof.skeleton.core.enums.ExceptionType;
 import com.nameof.skeleton.user.mapper.UserMapper;
 import com.nameof.skeleton.user.model.dto.UserDto;
 import com.nameof.skeleton.user.service.UserService;
-import com.nameof.skeleton.user.web.request.UserSignupRequest;
+import com.nameof.skeleton.user.model.request.UserSignupRequest;
 import com.nameof.skeleton.web.request.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,13 +19,10 @@ import javax.validation.Valid;
 public class UserController extends AbstractController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserMapper userMapper;
 
     @PostMapping("/signup")
     public UserDto signup(@RequestBody @Valid UserSignupRequest request) {
-        UserDto dto = userMapper.toDto(request);
-        return userService.signup(dto);
+        return userService.signup(request);
     }
 
     @GetMapping("/{id}")
