@@ -33,16 +33,6 @@ public class UserMapper extends AbstractMapper<User, UserDto> {
                         .collect(Collectors.toSet()));
     }
 
-    public User toDomain(UserDto dto) {
-        User user = new User()
-                .setEmail(dto.getEmail())
-                .setFirstName(dto.getFirstName())
-                .setLastName(dto.getLastName())
-                .setMobileNumber(dto.getMobileNumber())
-                .setRoles(dto.getRoles().stream().map(roleMapper::toDomain).collect(Collectors.toList()));
-        return user;
-    }
-
     public User toDomain(UserSignupRequest request) {
         return mapper.map(request, User.class);
     }
