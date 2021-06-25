@@ -6,6 +6,8 @@ import com.nameof.skeleton.user.domain.User;
 import com.nameof.skeleton.user.mapper.UserMapper;
 import com.nameof.skeleton.user.model.dto.UserDto;
 import com.nameof.skeleton.user.model.enums.UserRoles;
+import com.nameof.skeleton.user.model.request.ChangePasswordRequest;
+import com.nameof.skeleton.user.model.request.UpdateProfileRequest;
 import com.nameof.skeleton.user.model.request.UserSignupRequest;
 import com.nameof.skeleton.user.mq.UserMessageSender;
 import com.nameof.skeleton.user.repository.RoleRepository;
@@ -23,8 +25,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static com.nameof.skeleton.core.enums.EntityType.USER;
-import static com.nameof.skeleton.core.enums.ExceptionType.DUPLICATE_ENTITY;
-import static com.nameof.skeleton.core.enums.ExceptionType.ENTITY_NOT_FOUND;
+import static com.nameof.skeleton.core.enums.ExceptionType.*;
 
 @Service
 public class UserService extends AbstractService {
@@ -62,19 +63,22 @@ public class UserService extends AbstractService {
         return userMapper.toDto(userModel);
     }
 
-    public UserDto updateProfile(UserDto userDto) {
-        Optional<User> user = Optional.ofNullable(repository.findByEmail(userDto.getEmail()));
-        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, userDto.getEmail()));
-        userModel.setFirstName(userDto.getFirstName())
-                .setLastName(userDto.getLastName())
-                .setMobileNumber(userDto.getMobileNumber());
+    public UserDto updateProfile(UpdateProfileRequest request) {
+        Optional<User> user = Optional.ofNullable(repository.findByEmail(request.getEmail()));
+        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, request.getEmail()));
+        userModel.setFirstName(request.getFirstName())
+                .setLastName(request.getLastName())
+                .setMobileNumber(request.getMobileNumber());
         return userMapper.toDto(repository.save(userModel));
     }
 
-    public UserDto changePassword(UserDto userDto, String newPassword) {
-        Optional<User> user = Optional.ofNullable(repository.findByEmail(userDto.getEmail()));
-        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, userDto.getEmail()));
-        userModel.setPassword(bCryptPasswordEncoder.encode(newPassword));
+    public UserDto changePassword(ChangePasswordRequest request) {
+        Optional<User> user = Optional.ofNullable(repository.findByEmail(request.getEmail()));
+        User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, request.getEmail()));
+        if (!userModel.getPassword().equals(bCryptPasswordEncoder.encode(request.getOldPassword()))) {
+            throw exception(USER, PASSWORD_ERROR, request.getEmail());
+        }
+        userModel.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
         return userMapper.toDto(repository.save(userModel));
     }
 
