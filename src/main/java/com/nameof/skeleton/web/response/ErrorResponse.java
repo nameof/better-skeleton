@@ -37,36 +37,6 @@ public class ErrorResponse {
         return response;
     }
 
-    public static  ErrorResponse ok() {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(Status.OK);
-        return response;
-    }
-
-    public static  ErrorResponse unauthorized() {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(Status.UNAUTHORIZED);
-        return response;
-    }
-
-    public static  ErrorResponse validationException() {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(Status.VALIDATION_EXCEPTION);
-        return response;
-    }
-
-    public static  ErrorResponse wrongCredentials() {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(Status.WRONG_CREDENTIALS);
-        return response;
-    }
-
-    public static  ErrorResponse accessDenied() {
-        ErrorResponse response = new ErrorResponse();
-        response.setStatus(Status.ACCESS_DENIED);
-        return response;
-    }
-
     public static  ErrorResponse exception() {
         ErrorResponse response = new ErrorResponse();
         response.setStatus(Status.EXCEPTION);

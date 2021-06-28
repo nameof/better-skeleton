@@ -12,4 +12,8 @@ public abstract class AbstractService {
     protected RuntimeException exception(EntityType entityType, ExceptionType exceptionType, String... args) {
         return AppException.throwException(entityType, exceptionType, args);
     }
+
+    protected AppException.BusinessException businessException(String message) {
+        return new AppException.BusinessException(message);
+    }
 }

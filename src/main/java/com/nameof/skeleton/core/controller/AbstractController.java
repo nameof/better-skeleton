@@ -12,4 +12,8 @@ public abstract class AbstractController {
     protected RuntimeException exception(EntityType entityType, ExceptionType exceptionType, Object... args) {
         return AppException.throwException(entityType, exceptionType, args);
     }
+
+    protected AppException.BusinessException businessException(String message) {
+        return new AppException.BusinessException(message);
+    }
 }

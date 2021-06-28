@@ -76,7 +76,7 @@ public class UserService extends AbstractService {
         Optional<User> user = Optional.ofNullable(repository.findByEmail(request.getEmail()));
         User userModel = user.orElseThrow(() -> exception(USER, ENTITY_NOT_FOUND, request.getEmail()));
         if (!userModel.getPassword().equals(bCryptPasswordEncoder.encode(request.getOldPassword()))) {
-            throw exception(USER, PASSWORD_ERROR, request.getEmail());
+            throw businessException("password error");
         }
         userModel.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
         return userMapper.toDto(repository.save(userModel));

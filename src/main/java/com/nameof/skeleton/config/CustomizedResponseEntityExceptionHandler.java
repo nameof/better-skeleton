@@ -42,8 +42,15 @@ public class CustomizedResponseEntityExceptionHandler {
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AppException.BusinessException.class)
+    public final ResponseEntity handleBusinessException(AppException.BusinessException ex) {
+        ErrorResponse response = ErrorResponse.badRequest();
+        response.addError(ex.getMessage(), ex);
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity handleException(Exception ex, WebRequest request) {
+    public final ResponseEntity handleException(Exception ex) {
         ErrorResponse response = ErrorResponse.exception();
         response.addError(ex.getMessage(), ex);
         return new ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR);
