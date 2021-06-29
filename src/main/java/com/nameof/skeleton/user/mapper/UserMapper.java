@@ -23,6 +23,7 @@ public class UserMapper extends AbstractMapper<User, UserDto> {
     public UserDto toDto(User user) {
         return new UserDto()
                 .setEmail(user.getEmail())
+                .setPassword(user.getPassword())
                 .setFirstName(user.getFirstName())
                 .setLastName(user.getLastName())
                 .setMobileNumber(user.getMobileNumber())

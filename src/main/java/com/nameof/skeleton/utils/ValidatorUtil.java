@@ -26,7 +26,7 @@ public class ValidatorUtil {
                 .map(objectError -> {
                     if (objectError instanceof FieldError) {
                         FieldError fe = (FieldError) objectError;
-                        return fe.getField() + ":" + fe.getDefaultMessage();
+                        return fe.getField() + ": " + fe.getDefaultMessage();
                     }
                     return objectError.getDefaultMessage();
                 }).collect(Collectors.toList());

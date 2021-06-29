@@ -33,32 +33,27 @@ public class MultiHttpSecurityConfig {
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth
-                    .userDetailsService(userDetailsService)
-                    .passwordEncoder(bCryptPasswordEncoder);
+            auth.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
         }
 
-        // @formatter:off
         protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .csrf()
-                    .disable()
-                    .antMatcher("/api/**")
-                    .authorizeRequests()
-                    .antMatchers("/api/v1/user/signup").permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                    .and()
-                    .addFilter(new ApiJWTAuthenticationFilter(authenticationManager()))
-                    .addFilter(new ApiJWTAuthorizationFilter(authenticationManager()))
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            http.csrf()
+                .disable()
+                .antMatcher("/api/**")
+                .authorizeRequests()
+                .antMatchers("/api/v1/user/signup").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and()
+                .addFilter(new ApiJWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new ApiJWTAuthorizationFilter(authenticationManager()))
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
-        // @formatter:on
-
     }
 
     @Order(2)
@@ -75,43 +70,40 @@ public class MultiHttpSecurityConfig {
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth
-                    .userDetailsService(userDetailsService)
-                    .passwordEncoder(bCryptPasswordEncoder);
+            auth.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
         }
 
-        // @formatter:off
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .cors()
-                    .and()
-                    .csrf()
-                    .disable()
-                    .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/signup").permitAll()
-                    .antMatchers("/dashboard/**").hasAuthority("ADMIN")
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .failureUrl("/login?error=true")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .successHandler(customAuthenticationSuccessHandler)
-                    .and()
-                    .logout()
-                    .permitAll()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessHandler(new CustomLogoutSuccessHandler())
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/")
-                    .and()
-                    .exceptionHandling();
+            http.cors()
+                .and()
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/dashboard/**").hasAuthority("ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .failureUrl("/login?error=true")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(customAuthenticationSuccessHandler)
+                .and()
+                .logout()
+                .permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling();
         }
 
         @Override
@@ -124,6 +116,5 @@ public class MultiHttpSecurityConfig {
                     "/webjars/**", "/swagger-resources/**", "/actuator", "/swagger-ui/**",
                     "/actuator/**", "/swagger-ui/index.html", "/swagger-ui/");
         }
-        // @formatter:on
     }
 }

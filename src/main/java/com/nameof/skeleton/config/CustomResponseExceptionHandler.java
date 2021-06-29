@@ -16,43 +16,43 @@ import java.util.List;
 
 @ControllerAdvice
 @RestController
-public class CustomizedResponseEntityExceptionHandler {
+public class CustomResponseExceptionHandler {
 
     @ExceptionHandler(AppException.EntityNotFoundException.class)
     public final ResponseEntity handleNotFountExceptions(AppException.EntityNotFoundException ex, WebRequest request) {
-        ErrorResponse response = ErrorResponse.notFound();
-        response.addError(ex.getMessage(), ex);
+        ErrorResponse response = new ErrorResponse();
+        response.addError("not found", ex);
         return new ResponseEntity(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AppException.DuplicateEntityException.class)
     public final ResponseEntity handleDuplicateException(AppException.DuplicateEntityException ex, WebRequest request) {
-        ErrorResponse response = ErrorResponse.duplicateEntity();
-        response.addError(ex.getMessage(), ex);
+        ErrorResponse response = new ErrorResponse();
+        response.addError("duplicate error", ex);
         return new ResponseEntity(response, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public final ResponseEntity handleArgException(MethodArgumentNotValidException e) {
-        ErrorResponse response = ErrorResponse.badRequest();
+        ErrorResponse response = new ErrorResponse();
         List<ObjectError> allError = e.getBindingResult().getAllErrors();
         ValidatorUtil.errorToMsg(allError).stream()
-                .map(msg -> new ErrorResponse.Error().setMessage(msg).setDetails(msg))
+                .map(msg -> new ErrorResponse.Error().setMessage("argument error").setDetails(msg))
                 .forEach(response::addError);
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AppException.BusinessException.class)
     public final ResponseEntity handleBusinessException(AppException.BusinessException ex) {
-        ErrorResponse response = ErrorResponse.badRequest();
-        response.addError(ex.getMessage(), ex);
+        ErrorResponse response = new ErrorResponse();
+        response.addError("business error", ex);
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity handleException(Exception ex) {
-        ErrorResponse response = ErrorResponse.exception();
-        response.addError(ex.getMessage(), ex);
+        ErrorResponse response = new ErrorResponse();
+        response.addError("unkown error", ex);
         return new ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

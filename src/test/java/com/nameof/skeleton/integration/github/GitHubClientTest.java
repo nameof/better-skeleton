@@ -36,9 +36,9 @@ public class GitHubClientTest {
     @Test
     public void testGetRepository() {
         Repository repo = gitHubClient.getRepository("a");
-        Assert.assertTrue(repo.getName().equals("mock"));
-        Assert.assertTrue(repo.getFork() == 1);
-        Assert.assertTrue(repo.getStar() == 1);
+        Assert.assertEquals("mock", repo.getName());
+        Assert.assertEquals(1, repo.getFork());
+        Assert.assertEquals(1, repo.getStar());
         verify("getRepository").with("a");
         verify("responseToDomain");
     }
