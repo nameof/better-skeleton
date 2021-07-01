@@ -11,3 +11,6 @@ com.xx.blog.service
 2、数据对象转换关系 <br/>
 ① request → domain <br/>
 ② dto ← domain  <br/>
+
+3、更好的设计实践 <br/>
+学习DDD吧
