@@ -3,10 +3,7 @@ package com.nameof.skeleton.web.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nameof.skeleton.utils.DateUtil;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class ErrorResponse {
         this.timestamp = DateUtil.today();
     }
 
-    public void addError(String errorMsg, Exception ex) {
+    public void addError(String errorMsg, Throwable ex) {
         if (errors == null) {
             errors = new ArrayList<>();
         }
@@ -48,6 +45,7 @@ public class ErrorResponse {
     @Data
     @Accessors(chain = true)
     @NoArgsConstructor
+    @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Error {
