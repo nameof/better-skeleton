@@ -8,6 +8,8 @@ com.xx.user.service <br/>
 com.xx.blog.controller <br/>
 com.xx.blog.service
 
+[https://kislayverma.com/programming/how-to-organize-your-code](https://kislayverma.com/programming/how-to-organize-your-code)
+
 2、数据对象转换关系 <br/>
 ① request → domain <br/>
 ② dto ← domain  <br/>
